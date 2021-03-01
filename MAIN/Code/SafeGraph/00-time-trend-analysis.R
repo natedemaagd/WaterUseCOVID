@@ -17,7 +17,8 @@ rm(footTraffic2018, footTraffic2019, footTraffic2020)
 locations <- readRDS("D:/OneDrive - hawaii.edu/Documents/Projects/Water/Hotel V2/Data/Intermediate/SafeGraphHawaiiLocations.rds")
 
 # merge locations and foot traffic data
-locations <- locations[-(which(colnames(locations)[2:ncol(locations)] %in% colnames(footTraffic)))]  # except for the first column (needed to merge), remove all duplicate columns between the two data sets
+cols_to_remove <- colnames(locations)[which(colnames(locations) %in% colnames(footTraffic))][-1]
+locations <- locations[!(colnames(locations)) %in% cols_to_remove]  # except for the first column (needed to merge), remove all duplicate columns between the two data sets
 footTraffic <- merge(footTraffic, locations, by = 'safegraph_place_id')
 
 # save merged location and foot traffic data
